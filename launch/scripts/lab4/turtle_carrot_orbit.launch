@@ -1,0 +1,13 @@
+<launch>
+    <!-- Запуск симулятора черепахи -->
+    <node pkg="turtlesim" type="turtlesim_node" name="simulator"/>
+    
+    <!-- Запуск управления с клавиатуры -->
+    <node pkg="turtlesim" type="turtle_teleop_key" name="keyboard" output="screen"/>
+    
+    <!-- Запуск комбинированного TF broadcaster для черепахи и морковки -->
+    <node pkg="study_pkg" type="turtle_carrot_broadcaster.py" name="turtle_carrot_broadcaster" output="screen"/>
+    
+    <!-- Запуск RViz для визуализации -->
+    <node pkg="rviz" type="rviz" name="rviz"/>
+</launch>
