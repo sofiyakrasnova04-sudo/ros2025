@@ -1,0 +1,23 @@
+<launch>
+    <!-- Запуск симулятора черепахи -->
+    <node pkg="turtlesim" type="turtlesim_node" name="simulator"/>
+    
+    <!-- Запуск управления с клавиатуры -->
+    <node pkg="turtlesim" type="turtle_teleop_key" name="keyboard" output="screen"/>
+    
+    <!-- Запуск TF broadcaster для первой черепахи -->
+    <node pkg="study_pkg" type="turtle_tf_broadcaster.py" name="turtle1_tf_broadcaster">
+        <param name="turtle_tf_name" value="turtle1" />
+        <remap from="input_pose" to="/turtle1/pose" />
+    </node>
+    
+    <!-- Статическая трансформация для морковки перед черепашкой -->
+    <!-- Смещение по X = 0.3м (перед носом), Y = 0, Z = 0 -->
+    <!-- Углы: yaw=0, pitch=0, roll=0 (та же ориентация что и черепаха) -->
+    <node pkg="tf" type="static_transform_publisher" name="turtle1_to_carrot_tf" 
+          args="0.3 0 0 0 0 0 turtle1 carrot 100"/>
+    
+    <!-- Запуск RViz для визуализации -->
+    <node pkg="rviz" type="rviz" name="rviz" 
+          args="-d $(find study_pkg)/config/turtle_carrot.rviz"/>
+</launch>
