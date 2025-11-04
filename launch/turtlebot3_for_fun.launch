@@ -1,0 +1,26 @@
+<launch>
+  <!-- Аргументы для нашего launch-файла -->
+  <arg name="model" default="waffle_pi" 
+       doc="Модель TurtleBot3: burger, waffle или waffle_pi"/>
+  <arg name="x_pos" default="0.0" 
+       doc="Начальная позиция X робота"/>
+  <arg name="y_pos" default="0.0" 
+       doc="Начальная позиция Y робота"/>
+  <arg name="z_pos" default="0.0" 
+       doc="Начальная позиция Z робота"/>
+  <arg name="gazebo_gui" default="false" 
+       doc="Показывать графический интерфейс Gazebo"/>
+  
+  <!-- Используем наш кастомный world launch с передачей аргументов -->
+  <include file="$(find study_pkg)/launch/turtlebot3_world.launch">
+    <arg name="model" value="$(arg model)"/>
+    <arg name="x_pos" value="$(arg x_pos)"/>
+    <arg name="y_pos" value="$(arg y_pos)"/>
+    <arg name="z_pos" value="$(arg z_pos)"/>
+    <arg name="gazebo_gui" value="$(arg gazebo_gui)"/>
+  </include>
+
+  <!-- Запускаем RViz для визуализации -->
+  <node pkg="rviz" type="rviz" name="rviz" 
+        args="-d $(find turtlebot3_gazebo)/rviz/turtlebot3_gazebo_model.rviz"/>
+</launch>

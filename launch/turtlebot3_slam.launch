@@ -1,0 +1,17 @@
+<launch>
+  <!-- Аргументы -->
+  <arg name="model" default="waffle_pi" doc="Модель TurtleBot3"/>
+  <arg name="slam_methods" default="gmapping" doc="Метод SLAM"/>
+  <arg name="open_rviz" default="true" doc="Открывать RViz"/>
+  
+  <!-- SLAM Gmapping -->
+  <include file="$(find study_pkg)/launch/turtlebot3_gmapping.launch">
+    <arg name="model" value="$(arg model)"/>
+  </include>
+
+  <!-- RViz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find turtlebot3_slam)/rviz/turtlebot3_slam.rviz"/>
+  </group>
+</launch>
