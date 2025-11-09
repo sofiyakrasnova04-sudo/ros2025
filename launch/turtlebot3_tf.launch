@@ -1,0 +1,25 @@
+<launch>
+    <!-- 
+        Статический трансформ от base_footprint (центр на полу) до base_scan (фрейм лидара).
+        Аргументы: x y z yaw pitch roll frame_id child_frame_id period_in_ms
+
+        Предположим, что лидар установлен на высоте 0.1м от основания робота (base_link),
+        а base_link находится на высоте 0.2м от base_footprint.
+        Итого: 0.1 + 0.2 = 0.3м от пола.
+
+        yaw, pitch, roll = 0, значит, фреймы не повернуты друг относительно друга.
+    -->
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_scan_broadcaster" 
+          args="0.3 0 0.3 0 0 3.14 base_footprint base_scan 100" />
+
+    <!-- 
+        ДОПОЛНИТЕЛЬНО: Если нужен фрейм base_link, можно добавить еще одну ноду.
+        Это более правильная и полная цепочка преобразований.
+    -->
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link_broadcaster" 
+          args="0 0 0.2 0 0 0 base_footprint base_link 100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_base_scan_broadcaster" 
+          args="0 0 0.1 0 0 0 base_link base_scan 100" />
+
+</launch>

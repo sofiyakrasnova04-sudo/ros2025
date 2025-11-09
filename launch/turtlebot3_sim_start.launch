@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- 1. Запуск симуляции TurtleBot3 -->
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch"/>
+    
+    <!-- 2. Публикация информации о расположении частей робота -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+    
+    <!-- 3. Статический TF между base_footprint и base_scan -->
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_scan" 
+          args="0 0 0.1 0 0 0 base_footprint base_scan 100" />
+    
+    <!-- 4. Запуск Rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find study_pkg)/rviz/sim_initial.rviz" />
+    
+
+</launch>
