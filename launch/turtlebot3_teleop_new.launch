@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="turtlebot3_teleop_keyboard"  output="screen">
+    <param name="speed" value="0.4" />
+    <param name="turn" value="0.7" />
+  </node>
+</launch>
