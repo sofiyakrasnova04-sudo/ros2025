@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Устанавливаем модель TurtleBot3 -->
+    <env name="TURTLEBOT3_MODEL" value="burger" />
+    
+    <!-- Запуск ПУСТОГО мира Gazebo (менее ресурсоёмкий) -->
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_empty_world.launch"/>
+    
+    <!-- Публикация информации о расположении частей робота -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+    
+    <!-- Статический TF между base_footprint и base_scan -->
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_scan" 
+          args="0 0 0.1 0 0 0 base_footprint base_scan 100" />
+    
+    <!-- Запуск Rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" 
+          args="-d $(find study_pkg)/rviz/sim_initial.rviz"/>
+
+</launch>

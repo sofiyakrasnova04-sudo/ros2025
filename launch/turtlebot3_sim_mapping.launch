@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="rviz" default="true" />
+
+  <!-- Запуск симуляции -->
+  <include file="$(find study_pkg)/launch/turtlebot3_sim_start.launch">
+    <arg name="rviz" value="false"/>
+  </include>
+
+  <!-- Запуск нашего gmapping -->
+  <include file="$(find study_pkg)/launch/turtlebot3_my_gmapping.launch" />
+
+  <!-- Запуск Rviz с конфигурацией для mapping -->
+  <node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" 
+        args="-d $(find study_pkg)/rviz/sim_mapping.rviz" />    
+</launch>

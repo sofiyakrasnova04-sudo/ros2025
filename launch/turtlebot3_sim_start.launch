@@ -1,20 +1,41 @@
 <?xml version="1.0"?>
 <launch>
-
-    <!-- 1. Запуск симуляции TurtleBot3 -->
-    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch"/>
+    <!-- Аргументы для управления запуском -->
+    <arg name="rviz" default="false"/>
+    <arg name="model" default="burger"/>
+    <arg name="rviz_config" default="$(find turtlebot3_gazebo)/rviz/turtlebot3_gazebo_model.rviz"/>
     
-    <!-- 2. Публикация информации о расположении частей робота -->
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <!-- Запуск Gazebo с TurtleBot3 -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="worlds/empty.world"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+        <arg name="physics" value="bullet"/>
+    </include>
+
+    <!-- Загрузка модели TurtleBot3 -->
+    <param name="robot_description" 
+           command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro'" />
+
+    <!-- Спавн робота -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+          args="-urdf -model turtlebot3_$(arg model) -param robot_description -x 0 -y 0 -z 0.1"
+          respawn="false" output="screen" />
+
+    <!-- Публикация состояний робота -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
         <param name="publish_frequency" type="double" value="50.0" />
     </node>
-    
-    <!-- 3. Статический TF между base_footprint и base_scan -->
-    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_scan" 
-          args="0 0 0.1 0 0 0 base_footprint base_scan 100" />
-    
-    <!-- 4. Запуск Rviz -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find study_pkg)/rviz/sim_initial.rviz" />
-    
 
+    <!-- Управление с клавиатуры -->
+    <node pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" name="teleop_keyboard" output="screen">
+        <param name="model" value="$(arg model)"/>
+    </node>
+
+    <!-- УПРАВЛЯЕМЫЙ запуск Rviz -->
+    <node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" 
+          args="-d $(arg rviz_config)" required="true"/>
 </launch>

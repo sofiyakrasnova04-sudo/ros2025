@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Узел gmapping с загрузкой параметров из YAML -->
+  <node pkg="gmapping" type="slam_gmapping" name="gmapping">
+    <rosparam command="load" file="$(find study_pkg)/config/gmapping_params.yaml" />
+  </node>
+</launch>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Аргументы для управления запуском -->
+    <arg name="rviz" default="false"/>
+    <arg name="model" default="burger"/>
+    <arg name="rviz_config" default="$(find turtlebot3_gazebo)/rviz/turtlebot3_gazebo_model.rviz"/>
+    
+    <!-- ВРЕМЕННО: Fake данные вместо Gazebo -->
+    <!-- TF трансформации -->
+    <node pkg="tf" type="static_transform_publisher" name="map_to_odom" 
+          args="0 0 0 0 0 0 map odom 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="odom_to_base_footprint" 
+          args="0 0 0 0 0 0 odom base_footprint 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" 
+          args="0 0 0 0 0 0 base_footprint base_link 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" 
+          args="0.2 0 0.1 0 0 0 base_link base_laser_link 100"/>
+
+    <!-- Fake лазер -->
+    <node name="fake_laser" pkg="study_pkg" type="fake_laser.py" output="screen"/>
+
+    <!-- Fake одометрия -->
+    <node name="fake_odom" pkg="study_pkg" type="fake_odom_movement.py" output="screen"/>
+
+    <!-- УПРАВЛЯЕМЫЙ запуск Rviz -->
+    <node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" 
+          args="-d $(arg rviz_config)" required="true"/>
+</launch>
