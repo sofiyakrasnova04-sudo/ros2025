@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="model" default="waffle"/>
+  <env name="TURTLEBOT3_MODEL" value="$(arg model)" />
+
+  <!-- Явно создаем ноду move_base с кастомными параметрами -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+    
+    <!-- Глобальная costmap -->
+    <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find turtlebot3_navigation)/param/global_costmap_params.yaml" command="load"/>
+    
+    <!-- Локальная costmap -->
+    <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find turtlebot3_navigation)/param/local_costmap_params.yaml" command="load"/>
+    
+    <!-- Локальный планировщик -->
+    <rosparam file="$(find turtlebot3_navigation)/param/dwa_local_planner_params_$(arg model).yaml" command="load"/>
+    
+    <!-- Явно включаем публикацию costmap -->
+    <param name="global_costmap/publish_frequency" value="5.0"/>
+    <param name="local_costmap/publish_frequency" value="5.0"/>
+    <param name="global_costmap/always_send_full_costmap" value="true"/>
+    <param name="local_costmap/always_send_full_costmap" value="true"/>
+  </node>
+</launch>

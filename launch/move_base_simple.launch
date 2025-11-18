@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="model" default="waffle"/>
+  <env name="TURTLEBOT3_MODEL" value="$(arg model)" />
+
+  <!-- Используем стандартный launch-файл turtlebot3 -->
+  <include file="$(find turtlebot3_navigation)/launch/move_base.launch">
+    <arg name="model" value="$(arg model)"/>
+  </include>
+</launch>

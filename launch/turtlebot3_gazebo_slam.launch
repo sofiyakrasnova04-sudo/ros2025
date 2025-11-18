@@ -1,0 +1,25 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="waffle" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="open_rviz" default="true"/>
+
+  <!-- 1. Запуск симуляции -->
+  <include file="$(find study_pkg)/launch/turtlebot3_sim_start.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <!-- 2. Запуск SLAM gmapping -->
+  <include file="$(find study_pkg)/launch/turtlebot3_my_gmapping.launch"/>
+
+  <!-- 3. Запуск move_base для автономной навигации -->
+  <include file="$(find study_pkg)/launch/move_base.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <!-- 4. Запуск RViz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
+  </group>
+
+</launch>

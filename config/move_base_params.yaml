@@ -1,0 +1,5 @@
+controller_frequency: 10.0          # Частота контроллера
+planner_patience: 5.0               # Время ожидания нового плана
+controller_patience: 15.0           # Время ожидания перед восстановлением
+conservative_reset_dist: 3.0        # Дистанция для сброса
+recovery_behavior_enabled: true     # Включить восстановление
