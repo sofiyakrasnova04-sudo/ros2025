@@ -1,11 +1,18 @@
 local_costmap:
-  global_frame: odom                # Система координат
-  robot_base_frame: base_footprint  # База робота
-  update_frequency: 10.0            # Частота обновления (Гц)
-  publish_frequency: 10.0           # Частота публикации
-  transform_tolerance: 0.5          # Толерантность трансформ
-  static_map: false                 # Не использовать статическую карту
-  rolling_window: true              "Окно", движущееся с роботом
-  width: 3.0                        # Ширина окна (метры)
-  height: 3.0                       # Высота окна
-  resolution: 0.05                  # Разрешение (метры/пиксель)
+  # СИСТЕМЫ КООРДИНАТ  
+  global_frame: odom                 # Система координат ОДОМЕТРИИ (относительная)
+  robot_base_frame: base_footprint   # Система координат РОБОТА
+  
+  # ЧАСТОТЫ ОБНОВЛЕНИЯ
+  update_frequency: 10.0             # Частота обновления карты (Гц)
+  publish_frequency: 10.0            # Частота публикации карты (Гц)
+  transform_tolerance: 0.5           # Допустимая задержка трансформ (сек)
+  
+  # ПОВЕДЕНИЕ КАРТЫ
+  static_map: false                  # НЕ использовать статическую карту
+  rolling_window: true               #  Окно ДВИЖЕТСЯ с роботом
+  
+  # РАЗМЕРЫ ОКНА
+  width: 6.0                         # Ширина окна вокруг робота (метры)
+  height: 6.0                        # Высота окна вокруг робота (метры)
+  resolution: 0.05                   # Разрешение карты (метры/пиксель)

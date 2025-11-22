@@ -6,13 +6,29 @@
 
   <!-- move_base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!-- Global Planner -->
+    <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+    
+    <!-- Local Planner -->
     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+    
+    <!-- Load configuration files -->
+    <!-- Common costmap parameters -->
     <rosparam file="$(find study_pkg)/config/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find study_pkg)/config/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />
+    
+    <!-- Costmap parameters -->
     <rosparam file="$(find study_pkg)/config/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find study_pkg)/config/global_costmap_params.yaml" command="load" />
+    
+    <!-- Main move_base parameters -->
     <rosparam file="$(find study_pkg)/config/move_base_params.yaml" command="load" />
+    
+    <!-- Planner parameters -->
     <rosparam file="$(find study_pkg)/config/dwa_local_planner_params_$(arg model).yaml" command="load" />
+    <rosparam file="$(find study_pkg)/config/global_planner_params.yaml" command="load" />
+    
+    <!-- Topic remapping -->
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>
   </node>

@@ -1,5 +1,19 @@
-controller_frequency: 10.0          # Частота контроллера
-planner_patience: 5.0               # Время ожидания нового плана
-controller_patience: 15.0           # Время ожидания перед восстановлением
-conservative_reset_dist: 3.0        # Дистанция для сброса
-recovery_behavior_enabled: true     # Включить восстановление
+# ОСНОВНЫЕ НАСТРОЙКИ MOVE_BASE
+shutdown_costmaps: false            # Выключать карты при остановке
+
+# ЧАСТОТЫ РАБОТЫ
+controller_frequency: 10.0          # Частота работы контроллера (Гц)
+planner_frequency: 1.0              # Частота обновления глобального плана (Гц)
+
+# ТЕРПЕНИЕ И ТАЙМАУТЫ
+planner_patience: 5.0               # Время ожидания поиска пути до очистки (сек)
+controller_patience: 15.0           # Время ожидания данных управления до очистки (сек)
+
+# ВОССТАНОВЛЕНИЕ И СБРОС
+conservative_reset_dist: 3.0        # Дистанция сброса при восстановлении (метры)
+oscillation_timeout: 10.0           # Время восстановления данных/карты (сек)
+oscillation_distance: 0.2           # Дистанция для сброса колебаний (метры)
+
+# ПОВЕДЕНИЕ ПРИ ОШИБКАХ
+recovery_behavior_enabled: true     # Включить автоматическое восстановление
+clearing_rotation_allowed: true     # Разрешить вращение для очистки пространства

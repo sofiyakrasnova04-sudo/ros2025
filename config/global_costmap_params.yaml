@@ -1,8 +1,12 @@
 global_costmap:
-  global_frame: map                 # Глобальная система координат
-  robot_base_frame: base_footprint
-  update_frequency: 1.0
-  publish_frequency: 0.5
-  transform_tolerance: 0.5
-  static_map: true                  # Использовать статическую карту!
-  rolling_window: false            # Не использовать rolling window
+  # СИСТЕМЫ КООРДИНАТ
+  global_frame: map                  # Система координат КАРТЫ (фиксированная)
+  robot_base_frame: base_footprint   # Система координат РОБОТА (движущаяся)
+  
+  # ЧАСТОТЫ ОБНОВЛЕНИЯ
+  update_frequency: 1.0              # Частота обновления карты (Гц)
+  publish_frequency: 0.5             # Частота публикации карты (Гц)
+  transform_tolerance: 0.5           # Допустимая задержка трансформ (сек)
+  
+  #  ПОВЕДЕНИЕ КАРТЫ
+  static_map: true                   # Использовать ПРЕДВАРИТЕЛЬНУЮ карту
